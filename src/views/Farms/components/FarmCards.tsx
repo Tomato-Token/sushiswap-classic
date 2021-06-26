@@ -149,19 +149,9 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
                 farm.moreName ?
                 <StyledDetailMore>{farm.moreName}</StyledDetailMore>
                 :
-                <div className="mt-14" />
+                <div className="mt-8" />
               }
             <StyledDetails>
-              {/*(farm.pid == 11 || farm.pid === 12) ?
-                <a
-                  href={``}
-                  rel="noreferrer"
-                >
-                  <StyledDetail>Deposit {farm.lpToken}</StyledDetail>
-                </a>
-              :
-                <StyledDetail>Deposit {farm.lpToken}</StyledDetail>*/
-              }
               {
                 farm.pid===11 &&
                 <a
@@ -175,18 +165,19 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
               }
 
               {
-                farm.pid===12 ?
+                farm.pid===12 &&
                 <a
                   target="_blank"
                   className="underline"
                   href='https://app.uniswap.org/#/add/v2/0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE/0x82bd290afa5cC1b75F46822fEC415E2be51D7D46'
                   rel="noreferrer"
                 >
-                  <StyledDetail>Deposit {farm.lpToken}</StyledDetail>
+                  Deposit {farm.lpToken}
                 </a>
-
-                :
-                  <StyledDetail>Deposit {farm.lpToken}</StyledDetail>
+              }
+              { 
+                (farm.pid !== 11 && farm.pid !== 12) &&
+                <StyledDetail>Deposit {farm.lpToken}</StyledDetail>
               }
 
               <StyledDetail>Earn TOMATO</StyledDetail>

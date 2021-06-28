@@ -48,6 +48,10 @@ export const getFarms = (sushi) => {
         tokenContract,
         lpAddress,
         lpContract,
+        highlight,
+        type,
+        active,
+        lpUrl,
       }) => ({
         pid,
         id: symbol,
@@ -62,6 +66,10 @@ export const getFarms = (sushi) => {
         earnToken: 'sushi',
         earnTokenAddress: sushi.contracts.sushi.options.address,
         icon,
+        highlight,
+        type,
+        active,
+        lpUrl,
       }),
     )
     : []
@@ -359,22 +367,22 @@ export const redeem = async (masterChefContract, account) => {
 export const enter = async (contract, amount, account) => {
   debugger
   return contract.methods
-      .enter(
-          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
-      )
-      .send({ from: account })
-      .on('transactionHash', (tx) => {
-        return tx.transactionHash
-      })
+    .enter(
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+    )
+    .send({ from: account })
+    .on('transactionHash', (tx) => {
+      return tx.transactionHash
+    })
 }
 
 export const leave = async (contract, amount, account) => {
   return contract.methods
-      .leave(
-          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
-      )
-      .send({ from: account })
-      .on('transactionHash', (tx) => {
-        return tx.transactionHash
-      })
+    .leave(
+      new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
+    )
+    .send({ from: account })
+    .on('transactionHash', (tx) => {
+      return tx.transactionHash
+    })
 }

@@ -87,7 +87,7 @@ export const supportedPools = [
     symbol: 'SHIB',
     tokenSymbol: 'SHIB',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 1,
@@ -102,7 +102,7 @@ export const supportedPools = [
     symbol: 'AKITA',
     tokenSymbol: 'AKITA',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 2,
@@ -117,7 +117,7 @@ export const supportedPools = [
     symbol: 'ELON',
     tokenSymbol: 'ELON',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 3,
@@ -132,7 +132,7 @@ export const supportedPools = [
     symbol: 'WETH',
     tokenSymbol: 'WETH',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 4,
@@ -147,7 +147,7 @@ export const supportedPools = [
     symbol: 'AAVE',
     tokenSymbol: 'AAVE',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 5,
@@ -162,7 +162,7 @@ export const supportedPools = [
     symbol: 'COMP',
     tokenSymbol: 'COMP',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 6,
@@ -177,7 +177,7 @@ export const supportedPools = [
     symbol: 'UNI',
     tokenSymbol: 'UNI',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 7,
@@ -192,7 +192,7 @@ export const supportedPools = [
     symbol: 'SUSHI',
     tokenSymbol: 'SUSHI',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 8,
@@ -207,7 +207,7 @@ export const supportedPools = [
     symbol: 'SNX',
     tokenSymbol: 'SNX',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 9,
@@ -222,7 +222,7 @@ export const supportedPools = [
     symbol: 'MKR',
     tokenSymbol: 'MKR',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 10,
@@ -237,7 +237,7 @@ export const supportedPools = [
     symbol: 'LINK',
     tokenSymbol: 'LINK',
     icon: '🍅',
-    type: 'STAKE'
+    type: 'STAKE',
   },
   {
     pid: 11,
@@ -253,7 +253,10 @@ export const supportedPools = [
     symbol: 'ETH-TOMATO LP',
     tokenSymbol: 'ETH-TOMATO LP',
     icon: '🍅',
-    type: 'LP'
+    type: 'LP',
+    active: 'true',
+    lpUrl: 'https://app.uniswap.org/#/add/v2/ETH/0x82bd290afa5cC1b75F46822fEC415E2be51D7D46',
+    highlight: 'true'
   },
   {
     pid: 12,
@@ -269,7 +272,10 @@ export const supportedPools = [
     symbol: 'SHIB-TOMATO LP',
     tokenSymbol: 'SHIB-TOMATO LP',
     icon: '🍅',
-    type: 'LP'
+    type: 'LP',
+    active: 'true',
+    lpUrl: 'https://app.uniswap.org/#/add/v2/0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE/0x82bd290afa5cC1b75F46822fEC415E2be51D7D46',
+    highlight: 'true'
   },
   {
     pid: 13,
@@ -285,6 +291,8 @@ export const supportedPools = [
     symbol: 'TOMATO',
     tokenSymbol: 'TOMATO',
     icon: '🍅',
-    type: 'TOMATO-STAKE'
+    type: 'STAKE',
+    active: 'true',
+    highlight: 'true'
   },
 ]

@@ -1,5 +1,11 @@
 import { Contract } from 'web3-eth-contract'
 
+
+export enum FarmType {
+  STAKE = 'STAKE',
+  LP = 'LP'
+}
+
 export interface Farm {
   pid: number
   name: string
@@ -13,6 +19,10 @@ export interface Farm {
   icon: React.ReactNode
   id: string
   tokenSymbol: string
+  highlight?: boolean
+  type: FarmType
+  active: boolean
+  lpUrl: string
 }
 
 export interface FarmsContext {

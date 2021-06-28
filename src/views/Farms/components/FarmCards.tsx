@@ -28,8 +28,6 @@ const FarmCards: React.FC = () => {
   const stakedValue = useAllStakedValue()
 
 
-  console.log('farms', farms);
-
   const sushiIndex = farms.findIndex(
     ({ tokenSymbol }) => tokenSymbol === 'ETH-TOMATO LP',
   )
@@ -42,17 +40,46 @@ const FarmCards: React.FC = () => {
   const BLOCKS_PER_YEAR = new BigNumber(2372500)
   const SUSHI_PER_BLOCK = new BigNumber(1100000)
 
-  const rows = farms.reduce<FarmWithStakedValue[][]>(
+
+
+  const activeRows = farms.reduce<FarmWithStakedValue[][]>(
     (farmRows, farm, i) => {
       const farmWithStakedValue = {
         ...farm,
         ...stakedValue[i],
         apy: stakedValue[i]
           ? sushiPrice
-              .times(SUSHI_PER_BLOCK)
-              .times(BLOCKS_PER_YEAR)
-              .times(stakedValue[i].poolWeight)
-              .div(stakedValue[i].totalWethValue)
+            .times(SUSHI_PER_BLOCK)
+            .times(BLOCKS_PER_YEAR)
+            .times(stakedValue[i].poolWeight)
+            .div(stakedValue[i].totalWethValue)
+          : null,
+      }
+      // const newFarmRows = [...farmRows]
+      // if (newFarmRows[newFarmRows.length - 1].length === 3) {
+      //   newFarmRows.push([farmWithStakedValue])
+      // } else {
+      //   newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
+      // }
+      const newFarmRows = [...farmRows]
+      newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
+
+      return newFarmRows
+    },
+    [[]],
+  )
+
+  const endedRows = farms.reduce<FarmWithStakedValue[][]>(
+    (farmRows, farm, i) => {
+      const farmWithStakedValue = {
+        ...farm,
+        ...stakedValue[i],
+        apy: stakedValue[i]
+          ? sushiPrice
+            .times(SUSHI_PER_BLOCK)
+            .times(BLOCKS_PER_YEAR)
+            .times(stakedValue[i].poolWeight)
+            .div(stakedValue[i].totalWethValue)
           : null,
       }
       const newFarmRows = [...farmRows]
@@ -66,25 +93,55 @@ const FarmCards: React.FC = () => {
     [[]],
   )
 
+
+
   return (
-    <StyledCards>
-      {!!rows[0].length ? (
-        rows.map((farmRow, i) => (
-          <StyledRow key={i}>
-            {farmRow.map((farm, j) => (
-              <React.Fragment key={j}>
-                <FarmCard farm={farm} />
-                {(j === 0 || j === 1) && <StyledSpacer />}
-              </React.Fragment>
-            ))}
-          </StyledRow>
-        ))
-      ) : (
-        <StyledLoadingWrapper>
-          <Loader text="Ripening the tomatoes ..." />
-        </StyledLoadingWrapper>
-      )}
-    </StyledCards>
+    <>
+    <FarmHeader>Active</FarmHeader>
+      <StyledCards>
+        {!!activeRows[0].length ? (
+          activeRows.map((farmRow, i) => (
+            <StyledRow key={i}>
+              {farmRow.map((farm, j) => (
+                farm.active && (
+                  <React.Fragment key={j}>
+                    <FarmCard farm={farm} />
+                    <StyledSpacer />
+                  </React.Fragment>
+                )
+              ))}
+            </StyledRow>
+          ))
+        ) : (
+          <StyledLoadingWrapper>
+            <Loader text="Ripening the tomatoes ..." />
+          </StyledLoadingWrapper>
+        )}
+      </StyledCards>
+
+      <FarmHeader>Ended</FarmHeader>
+      <StyledCards>
+        {!!endedRows[0].length ? (
+          endedRows.map((farmRow, i) => (
+            <StyledRow key={i}>
+              {farmRow.map((farm, j) => (
+                !farm.active && (
+                  <React.Fragment key={j}>
+                    <FarmCard farm={farm} />
+                    {(j === 0 || j === 1) && <StyledSpacer />}
+                  </React.Fragment>
+                )
+              ))}
+            </StyledRow>
+          ))
+        ) : (
+          <StyledLoadingWrapper>
+            <Loader text="Ripening the tomatoes ..." />
+          </StyledLoadingWrapper>
+        )}
+      </StyledCards>
+
+    </>
   )
 }
 
@@ -134,26 +191,23 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
 
   return (
     <StyledCardWrapper>
-      {(  farm.pid === 11 
-            || farm.pid === 12 
-            || farm.pid === 13 
-       )
-        && <StyledCardAccent />
+      {
+        farm.highlight && <StyledCardAccent />
       }
       <Card>
         <CardContent>
           <StyledContent>
             <CardIcon>{farm.icon}</CardIcon>
             <StyledTitle>{farm.name}</StyledTitle>
-              {
-                farm.moreName ?
+            {
+              farm.moreName ?
                 <StyledDetailMore>{farm.moreName}</StyledDetailMore>
                 :
                 <div className="mt-8" />
-              }
+            }
             <StyledDetails>
               {
-                farm.pid===11 &&
+                farm.pid === 11 &&
                 <a
                   target="_blank"
                   className="underline"
@@ -165,7 +219,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
               }
 
               {
-                farm.pid===12 &&
+                farm.pid === 12 &&
                 <a
                   target="_blank"
                   className="underline"
@@ -175,7 +229,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
                   Deposit {farm.lpToken}
                 </a>
               }
-              { 
+              {
                 (farm.pid !== 11 && farm.pid !== 12) &&
                 <StyledDetail>Deposit {farm.lpToken}</StyledDetail>
               }
@@ -200,24 +254,13 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
               <span>
                 {farm.apy
                   ? `${farm.apy
-                      .times(new BigNumber(100))
-                      .toNumber()
-                      .toLocaleString('en-US')
-                      .slice(0, -1)}%`
+                    .times(new BigNumber(100))
+                    .toNumber()
+                    .toLocaleString('en-US')
+                    .slice(0, -1)}%`
                   : 'Loading ...'}
               </span>
-              {/* <span>
-                {farm.tokenAmount
-                  ? (farm.tokenAmount.toNumber() || 0).toLocaleString('en-US')
-                  : '-'}{' '}
-                {farm.tokenSymbol}
-              </span>
-              <span>
-                {farm.wethAmount
-                  ? (farm.wethAmount.toNumber() || 0).toLocaleString('en-US')
-                  : '-'}{' '}
-                ETH
-              </span> */}
+             
             </StyledInsight>
           </StyledContent>
         </CardContent>
@@ -347,4 +390,20 @@ const StyledInsight = styled.div`
   padding: 0 12px;
 `
 
+
+
+const FarmHeader = styled.h3`
+  color: ${(props) => props.theme.color.grey[600]};
+  font-size: 28px;
+  font-weight: 500;
+  margin: 24px 0px;
+  padding: 0;
+  text-align: center;
+`
+
+
+
 export default FarmCards
+
+
+

@@ -55,12 +55,7 @@ const FarmCards: React.FC = () => {
             .div(stakedValue[i].totalWethValue)
           : null,
       }
-      // const newFarmRows = [...farmRows]
-      // if (newFarmRows[newFarmRows.length - 1].length === 3) {
-      //   newFarmRows.push([farmWithStakedValue])
-      // } else {
-      //   newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
-      // }
+     
       const newFarmRows = [...farmRows]
       newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
 
@@ -119,7 +114,8 @@ const FarmCards: React.FC = () => {
         )}
       </StyledCards>
 
-      <FarmHeader>Ended</FarmHeader>
+      <div className="mt-10" />
+      <FarmHeader>Finished</FarmHeader>
       <StyledCards>
         {!!endedRows[0].length ? (
           endedRows.map((farmRow, i) => (
@@ -151,7 +147,10 @@ interface FarmCardProps {
 
 
 
-
+/***
+ *  TODO: farm.pid is used below to find if its a lp farm, there is Farm.TYPE==LP
+ *  and a Farm.lpUrl that should be used instead
+ */
 const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
   const [startTime, setStartTime] = useState(0)
   const [harvestable, setHarvestable] = useState(0)
@@ -250,17 +249,32 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
               )}
             </Button>
             <StyledInsight>
-              <span>APY</span>
-              <span>
-                {farm.apy
-                  ? `${farm.apy
-                    .times(new BigNumber(100))
-                    .toNumber()
-                    .toLocaleString('en-US')
-                    .slice(0, -1)}%`
-                  : 'Loading ...'}
-              </span>
-             
+              {farm.active && (
+                <>
+                  <span>APY</span>
+                  <span>
+                    {
+                      farm.active &&
+                      (farm.apy
+                      ? `${farm.apy
+                        .times(new BigNumber(100))
+                        .toNumber()
+                        .toLocaleString('en-US')
+                        .slice(0, -1)}%`
+                      : 'Loading ...'
+                      )
+                    }
+                
+                  </span>
+                </>
+              )}
+
+            {!farm.active && (
+                <>
+                  <span>ENDED</span>
+                </>
+              )}
+
             </StyledInsight>
           </StyledContent>
         </CardContent>
